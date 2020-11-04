@@ -36,13 +36,13 @@ get_tweet_success = False
 #     for tweet in tweepy.Cursor(api.search,q=search2, tweet_mode='extended',result_type='popular').items(numberOfTweets):
 
 if not get_tweet_success:
-    for tweet in api.search(q=search2, tweet_mode='extended', count=2, result_type='recent'):
+    count = 0
+    for tweet in api.search(q=search2, tweet_mode='extended', count=10, result_type='recent'):
         try:
             # tweet.retweet()
             get_tweet_success = True
-            print('Retweeted the tweet: ', tweet.retweeted_status.full_text)
-        except tweepy.TweepError as e:
-            get_tweet_success = False
-            print(e.reason)
-        except StopIteration:
-            break
+            print('Retweeted the retweet: ', tweet.retweeted_status.full_text)
+        except:
+            print('retweet: ', tweet.full_text)
+        count += 1
+    print(count)
