@@ -27,9 +27,9 @@ except:
 
 #retweet for a search string
 search1 = "election Trump Biden has:links lang:en"
-search2 = "election has:links lang:en"
-search3 = "from:realDonaldTrump has:links"
-numberOfTweets = 2
+search2 = "election lang:en"
+search3 = "from:realDonaldTrump"
+numberOfTweets = 30
 get_tweet_success = False
 
 # if not get_tweet_success:
@@ -37,12 +37,26 @@ get_tweet_success = False
 
 if not get_tweet_success:
     count = 0
-    for tweet in api.search(q=search2, tweet_mode='extended', count=10, result_type='recent'):
+    for tweet in tweepy.Cursor(api.search,q=search2, tweet_mode='extended', result_type='recent').items(numberOfTweets):
+        # for tweet in api.search(q=search2, tweet_mode='extended', count=10, result_type='recent'):
         try:
             # tweet.retweet()
             get_tweet_success = True
             print('Retweeted the retweet: ', tweet.retweeted_status.full_text)
         except:
             print('retweet: ', tweet.full_text)
+        try:
+            url = tweet.entities['urls'][0]['expanded_url']
+            print('tweet entities: ', tweet.entities)
+            tweet.retweet()
+            break
+        except:
+            print('tweet entities: ', tweet.entities)
         count += 1
     print(count)
+
+    print('url: ', url)
+
+    import re
+
+    print(re.search(r"//(.*?)/",url).group(1))
