@@ -1,3 +1,3 @@
 # CS321_twitter_bot
 
-This is Twitter bot from team 009, section 007.
+This is a Twitter bot from team 009, section 007.
