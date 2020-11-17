@@ -1,6 +1,6 @@
 import tweepy
-from CS321_twitter_bot.search import get_tweet
-from CS321_twitter_bot.mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+from search import get_tweet
+from mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 def tweet():
     tweet = get_tweet()

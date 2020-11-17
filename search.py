@@ -1,7 +1,7 @@
 import tweepy
 
-from CS321_twitter_bot.database import connect, source_bias, source_accuracy, source_name
-from CS321_twitter_bot.mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+from database import connect, source_bias, source_accuracy, source_name
+from mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 
 def search_tweets():
