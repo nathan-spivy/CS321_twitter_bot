@@ -14,6 +14,37 @@ def connect():
     return df
 
 
+def source_name(df, link):
+    # Making sure that inputted is valid
+    if len(link) < 8:
+        return ""
+    # Removes the https:// from the link
+    link = link[8:]
+
+    # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
+    if 'twitter.com' in link:
+        return ""
+
+    link1 = link[0:link.index('/') + 1]
+    temp = link[link.index('/') + 1:len(link)]
+    link2 = ''
+    if '/' in temp:
+        temp = temp[0:temp.index('/') + 1]
+        link2 = link1 + temp
+
+
+    # Finds the name for the news source the link corresponds to
+    name = df.source_name[df.source_url.str.contains(link1)]
+
+    backup_name = df.source_name[df.source_url.str.contains(link2)]
+
+    if len(name) > 1 and len(backup_name) == 1:
+        name = backup_name
+    else:
+        name = name.iloc[0]
+
+    return name
+
 """
 About:
     - This function searches the database for the news source that corresponds to the inputted link and returns
@@ -23,8 +54,6 @@ Arguments:
 Return:
     - bias (String) : A string containing the bias rating for the inputted news source
 """
-
-
 def source_bias(df, link):
     # Making sure that inputted is valid
     if len(link) < 8:
@@ -32,18 +61,31 @@ def source_bias(df, link):
     # Removes the https:// from the link
     link = link[8:]
 
-    # Finds the core portion of the link
-    link = link[0:link.index('/')]
-
     # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
     if 'twitter.com' in link:
         return ""
 
+    link1 = link[0:link.index('/') + 1]
+    temp = link[link.index('/') + 1:len(link)]
+    link2 = ''
+    if '/' in temp:
+        temp = temp[0:temp.index('/') + 1]
+        link2 = link1 + temp
+
     # Finds the bias rating for the news source the link corresponds to
-    bias = df.media_bias_rating[df.source_url.str.contains(link)]
+    bias = df.media_bias_rating[df.source_url.str.contains(link1)]
+
+    backup_bias = df.media_bias_rating[df.source_url.str.contains(link2)]
+
+    if len(bias) > 1 and len(backup_bias) == 1:
+        bias = backup_bias
+    elif len(bias) > 1:
+        bias = bias.iloc[0]
+    else:
+        return ''
 
     # Checking if database contains news source
-    if len(bias) > 0:
+    if len(bias) < 100:
         return bias
     else:
         return ""
@@ -67,18 +109,31 @@ def source_accuracy(df, link):
     # Removes the https:// from the link
     link = link[8:]
 
-    # Finds the core portion of the link
-    link = link[0:link.index('/')]
-
     # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
     if 'twitter.com' in link:
         return ""
 
-    # Finds the accuracy rating for the news source the link corresponds to
-    accuracy = df.media_accuracy_rating[df.source_url.str.contains(link)]
+    link1 = link[0:link.index('/') + 1]
+    temp = link[link.index('/') + 1:len(link)]
+    link2 = ''
+    if '/' in temp:
+        temp = temp[0:temp.index('/') + 1]
+        link2 = link1 + temp
+
+    # Finds the bias rating for the news source the link corresponds to
+    accuracy = df.media_accuracy_rating[df.source_url.str.contains(link1)]
+
+    backup_accuracy = df.media_accuracy_rating[df.source_url.str.contains(link2)]
+
+    if len(accuracy) > 1 and len(backup_accuracy) == 1:
+        accuracy = backup_accuracy
+    elif len(accuracy) > 1:
+        accuracy = accuracy.iloc[0]
+    else:
+        return ''
 
     # Checking if database contains news source
-    if len(accuracy) > 0:
+    if len(accuracy) < 100:
         return accuracy
     else:
         return ""
