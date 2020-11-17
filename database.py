@@ -25,12 +25,13 @@ def source_name(df, link):
     if 'twitter.com' in link:
         return ""
 
-    link1 = link[0:link.index('/') + 1]
-    temp = link[link.index('/') + 1:len(link)]
-    link2 = ''
-    if '/' in temp:
-        temp = temp[0:temp.index('/') + 1]
-        link2 = link1 + temp
+    if '/' in link:
+        link1 = link[0:link.index('/')] + "/"
+        temp = link[link.index('/') + 1:len(link)]
+        link2 = ''
+        if '/' in temp:
+            temp = temp[0:temp.index('/') + 1]
+            link2 = link1 + temp
 
 
     # Finds the name for the news source the link corresponds to
@@ -39,10 +40,9 @@ def source_name(df, link):
     backup_name = df.source_name[df.source_url.str.contains(link2)]
 
     if len(name) > 1 and len(backup_name) == 1:
-        name = backup_name
+        name = backup_name.iloc[0]
     else:
         name = name.iloc[0]
-
     return name
 
 """
@@ -65,12 +65,13 @@ def source_bias(df, link):
     if 'twitter.com' in link:
         return ""
 
-    link1 = link[0:link.index('/') + 1]
-    temp = link[link.index('/') + 1:len(link)]
-    link2 = ''
-    if '/' in temp:
-        temp = temp[0:temp.index('/') + 1]
-        link2 = link1 + temp
+    if '/' in link:
+        link1 = link[0:link.index('/')] + "/"
+        temp = link[link.index('/') + 1:len(link)]
+        link2 = ''
+        if '/' in temp:
+            temp = temp[0:temp.index('/') + 1]
+            link2 = link1 + temp
 
     # Finds the bias rating for the news source the link corresponds to
     bias = df.media_bias_rating[df.source_url.str.contains(link1)]
@@ -78,7 +79,7 @@ def source_bias(df, link):
     backup_bias = df.media_bias_rating[df.source_url.str.contains(link2)]
 
     if len(bias) > 1 and len(backup_bias) == 1:
-        bias = backup_bias
+        bias = backup_bias.iloc[0]
     elif len(bias) > 1:
         bias = bias.iloc[0]
     else:
@@ -113,20 +114,22 @@ def source_accuracy(df, link):
     if 'twitter.com' in link:
         return ""
 
-    link1 = link[0:link.index('/') + 1]
-    temp = link[link.index('/') + 1:len(link)]
-    link2 = ''
-    if '/' in temp:
-        temp = temp[0:temp.index('/') + 1]
-        link2 = link1 + temp
-
+    if '/' in link:
+        link1 = link[0:link.index('/')] + "/"
+        temp = link[link.index('/') + 1:len(link)]
+        link2 = ''
+        if '/' in temp:
+            temp = temp[0:temp.index('/') + 1]
+            link2 = link1 + temp
+    else:
+        link1, link2 = link
     # Finds the bias rating for the news source the link corresponds to
     accuracy = df.media_accuracy_rating[df.source_url.str.contains(link1)]
 
     backup_accuracy = df.media_accuracy_rating[df.source_url.str.contains(link2)]
 
     if len(accuracy) > 1 and len(backup_accuracy) == 1:
-        accuracy = backup_accuracy
+        accuracy = backup_accuracy.iloc[0]
     elif len(accuracy) > 1:
         accuracy = accuracy.iloc[0]
     else:
