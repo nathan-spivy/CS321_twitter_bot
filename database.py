@@ -32,7 +32,8 @@ def source_name(df, link):
         if '/' in temp:
             temp = temp[0:temp.index('/') + 1]
             link2 = link1 + temp
-
+    else:
+        link1, link2 = link
 
     # Finds the name for the news source the link corresponds to
     name = df.source_name[df.source_url.str.contains(link1)]
@@ -72,7 +73,8 @@ def source_bias(df, link):
         if '/' in temp:
             temp = temp[0:temp.index('/') + 1]
             link2 = link1 + temp
-
+    else:
+        link1, link2 = link
     # Finds the bias rating for the news source the link corresponds to
     bias = df.media_bias_rating[df.source_url.str.contains(link1)]
 

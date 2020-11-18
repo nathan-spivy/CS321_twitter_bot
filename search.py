@@ -11,25 +11,20 @@ def search_tweets():
     # Create API object
     api = tweepy.API(auth)
 
-    search_term = 'Election OR Trump OR Biden OR Harris'
+    search_term = 'Election AND (Trump OR Biden OR Harris OR Pence)'
 
-    tweets = tweepy.Cursor(api.search, count=100, q=search_term, result_type='popular').items()
-    linked_tweets = []
+    tweets = tweepy.Cursor(api.search, count=100, q=search_term, result_type='mixed').items()
 
-    for tweet in tweets:
-        if len(tweet._json['entities']['urls']) == 0:
-            continue
-        linked_tweets.append(tweet)
-
-    return linked_tweets
+    return tweets
 
 
 def get_tweet():
     tweets = search_tweets()
     df = connect()
     for tweet in tweets:
-        url = tweet._json['entities']['urls'][0]['expanded_url']
-        bias = source_bias(df, url)
-        if len(bias) > 0:
-            return [source_name(df,url),bias,url,tweet]
+        if len(tweet._json['entities']['urls']) > 0:
+            url = tweet._json['entities']['urls'][0]['expanded_url']
+            bias = source_bias(df, url)
+            if len(bias) > 0:
+                return [source_name(df,url),bias,url,tweet]
 
