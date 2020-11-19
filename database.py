@@ -106,6 +106,9 @@ def source_bias(df, link):
 
 
 def source_accuracy(df, link):
+    # Since over 800 accuracy ratings need to be manually inputed, accuracy has not been put in the database yet
+    return "Coming Soon!"
+
     # Making sure that inputted is valid
     if len(link) < 8:
         return ""
