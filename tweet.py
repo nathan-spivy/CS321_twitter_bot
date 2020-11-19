@@ -18,4 +18,4 @@ def tweet():
     api.update_status(tweet_contents)
 
 
-
+tweet()
