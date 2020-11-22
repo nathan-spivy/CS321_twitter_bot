@@ -1,1 +1,1 @@
-woeker: python tweet.py
+worker: python tweet.py
