@@ -1,7 +1,7 @@
 import tweepy
 import time
 from search import get_tweet
-from mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+from os import environ
 
 
 def tweet():
@@ -10,11 +10,17 @@ def tweet():
            Tweeted in a popular tweet. It then posts the tweet to the TrueNews twitter account.
     """
 
+    consumer_key = environ['CONSUMER_KEY']
+    consumer_secret = environ['CONSUMER_SECRET']
+    access_token = environ['ACCESS_TOKEN']
+    access_token_secret = environ['ACCESS_TOKEN_SECRET']
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+
     tweet = get_tweet()
     tweet_contents = "News Source: " + tweet[0] + "\nSource Bias: " + tweet[1] + \
                      "\nSource Accuracy: " + tweet[2] + "\nArticle: " + tweet[3] + ""
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
     # Create API object
     api = tweepy.API(auth)

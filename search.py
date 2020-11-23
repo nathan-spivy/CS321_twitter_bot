@@ -1,7 +1,6 @@
 import tweepy
-
+from os import environ
 from database import connect, source_bias, source_accuracy, source_name
-from mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 '''
 About:
@@ -11,8 +10,13 @@ Return:
     - tweets (Status Iterator) This function returns a tweepy status iterator that contains the requested tweets.
 '''
 def search_tweets():
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    consumer_key = environ['CONSUMER_KEY']
+    consumer_secret = environ['CONSUMER_SECRET']
+    access_token = environ['ACCESS_TOKEN']
+    access_token_secret = environ['ACCESS_TOKEN_SECRET']
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
 
     # Create API object
     api = tweepy.API(auth)
