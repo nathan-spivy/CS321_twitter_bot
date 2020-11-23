@@ -1,7 +1,11 @@
 import tweepy
-
+from os import environ
 from database import connect, source_bias, source_accuracy, source_name
-from mykey import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
+
+consumer_key = environ['CONSUMER_KEY']
+consumer_secret = environ['CONSUMER_SECRET']
+access_token = environ['ACCESS_TOKEN']
+access_token_secret = environ['ACCESS_TOKEN_SECRET']
 
 '''
 About:
@@ -11,8 +15,9 @@ Return:
     - tweets (Status Iterator) This function returns a tweepy status iterator that contains the requested tweets.
 '''
 def search_tweets():
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
 
     # Create API object
     api = tweepy.API(auth)
@@ -25,8 +30,9 @@ def search_tweets():
 
 
 def past_tweets():
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
 
     # Create API object
     api = tweepy.API(auth)
@@ -42,18 +48,22 @@ def past_tweets():
 def get_tweet():
     tweets = search_tweets()
     df = connect()
-    for tweet in tweets:
-        # Making sure tweet contains a url
-        if len(tweet._json['entities']['urls']) > 0:
-            url = tweet._json['entities']['urls'][0]['expanded_url']
+    found = False
+    # Loop until an tweet with an article is found. Searching for more tweets if necessary.
+    while not found:
+        for tweet in tweets:
+            # Making sure tweet contains a url
+            if len(tweet._json['entities']['urls']) > 0:
+                url = tweet._json['entities']['urls'][0]['expanded_url']
 
-            # Getting tweet bias and accuracy
-            bias = source_bias(df, url)
-            accuracy = source_accuracy(df, url)
+                # Getting tweet bias and accuracy
+                bias = source_bias(df, url)
+                accuracy = source_accuracy(df, url)
 
-            # Making sure the article isn't posted twice
-            if url in past_tweets():
-                continue
-            # Checks if Bias is valid
-            if len(bias) > 0:
-                return [source_name(df, url), bias, accuracy, url, tweet]
+                # Making sure the article isn't posted twice
+                if url in past_tweets():
+                    continue
+                # Checks if Bias is valid
+                if len(bias) > 0:
+                    return [source_name(df, url), bias, accuracy, url, tweet]
+        tweets = search_tweets()

@@ -24,6 +24,8 @@ def source_name(df, link):
     # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
     if 'twitter.com' in link:
         return ""
+    elif 'youtube.com' in link:
+        return ""
 
     if '/' in link:
         link1 = link[0:link.index('/')] + "/"
@@ -64,6 +66,8 @@ def source_bias(df, link):
 
     # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
     if 'twitter.com' in link:
+        return ""
+    elif 'youtube.com' in link:
         return ""
 
     if '/' in link:
@@ -117,6 +121,8 @@ def source_accuracy(df, link):
 
     # Twitter posts sometimes will include links to the status. Does not mean there is a link in the status
     if 'twitter.com' in link:
+        return ""
+    elif 'youtube.com' in link:
         return ""
 
     if '/' in link:
