@@ -48,18 +48,22 @@ def past_tweets():
 def get_tweet():
     tweets = search_tweets()
     df = connect()
-    for tweet in tweets:
-        # Making sure tweet contains a url
-        if len(tweet._json['entities']['urls']) > 0:
-            url = tweet._json['entities']['urls'][0]['expanded_url']
+    found = False
+    # Loop until an tweet with an article is found. Searching for more tweets if necessary.
+    while not found:
+        for tweet in tweets:
+            # Making sure tweet contains a url
+            if len(tweet._json['entities']['urls']) > 0:
+                url = tweet._json['entities']['urls'][0]['expanded_url']
 
-            # Getting tweet bias and accuracy
-            bias = source_bias(df, url)
-            accuracy = source_accuracy(df, url)
+                # Getting tweet bias and accuracy
+                bias = source_bias(df, url)
+                accuracy = source_accuracy(df, url)
 
-            # Making sure the article isn't posted twice
-            if url in past_tweets():
-                continue
-            # Checks if Bias is valid
-            if len(bias) > 0:
-                return [source_name(df, url), bias, accuracy, url, tweet]
+                # Making sure the article isn't posted twice
+                if url in past_tweets():
+                    continue
+                # Checks if Bias is valid
+                if len(bias) > 0:
+                    return [source_name(df, url), bias, accuracy, url, tweet]
+        tweets = search_tweets()
