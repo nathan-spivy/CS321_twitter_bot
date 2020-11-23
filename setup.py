@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="example-pkg-YOUR-USERNAME-HERE", # Replace with your own username
+    name="kidusyohannes09", # Replace with your own username
     version="0.0.1",
     author="Example Author",
     author_email="author@example.com",
@@ -19,7 +19,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    pkg1
-pkg2
-pkg3>=1.0,<=2.0
+ 
 )
