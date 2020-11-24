@@ -8,11 +8,12 @@ class DatabaseTest(unittest.TestCase):
         self.assertEqual(source_name(df, ""), "")
         self.assertEqual(source_name(df, "random text"), "")
         self.assertEqual(source_name(df, "https://twitter.com/post/exampletwitter"), "")
-        #self.assertEqual()
+        # self.assertEqual()
 
     def test_source_bias(self):
         df = connect()
         self.assertEqual(source_bias(df, ""), "")
+
 
 if __name__ == '__main__':
     unittest.main()
