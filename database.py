@@ -16,7 +16,7 @@ def connect():
 
 def source_name(df, link):
     # Making sure that inputted is valid
-    if len(link) < 8:
+    if len(link) < 8 or 'https://' not in link:
         return ""
     # Removes the https:// from the link
     link = link[8:]
@@ -59,7 +59,7 @@ Return:
 """
 def source_bias(df, link):
     # Making sure that inputted is valid
-    if len(link) < 8:
+    if len(link) < 8 or 'https://' not in link:
         return ""
     # Removes the https:// from the link
     link = link[8:]
@@ -114,7 +114,7 @@ def source_accuracy(df, link):
     return "Coming Soon!"
 
     # Making sure that inputted is valid
-    if len(link) < 8:
+    if len(link) < 8 or 'https://' not in link:
         return ""
     # Removes the https:// from the link
     link = link[8:]
