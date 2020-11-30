@@ -37,7 +37,7 @@ def past_tweets():
     # Create API object
     api = tweepy.API(auth)
 
-    tweets = tweepy.Cursor(api.user_timeline).items(5)
+    tweets = tweepy.Cursor(api.user_timeline).items(10)
 
     links = []
     for tweet in tweets:
@@ -49,6 +49,7 @@ def get_tweet():
     tweets = search_tweets()
     df = connect()
     found = False
+
     # Loop until an tweet with an article is found. Searching for more tweets if necessary.
     while not found:
         for tweet in tweets:
